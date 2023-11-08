@@ -87,7 +87,7 @@ const LoginPage = () => {
       <Link href='/signup'>Visit Signup page</Link>
       <hr />
       {/* Link to the "Forgot Your Password" page */}
-      <Link className='mt-4 hover:text-blue-800' href='/forgotpassword'>Forgot Your Password?</Link>
+      <Link className='mt-4 hover:text-blue-800' href='/resetpassword/emailverification'>Forgot Your Password?</Link>
     </div>
   );
 }
