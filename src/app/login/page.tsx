@@ -1,87 +1,95 @@
 'use client';
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import Link from 'next/link'; 
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation'; 
 import axios from "axios";
 import toast from 'react-hot-toast';
 
+// Define the LoginPage component
 const LoginPage = () => {
   const router = useRouter();
+  
+  // State to store user input
   const [user, setUser] = React.useState({
     email: '',
     password: '',
-    
-  })
+  });
 
-    // Change the state of the login button 
-    const [ButtonDisable, setButtonDisable] = React.useState(false);
+  // State to control the login button's state
+  const [ButtonDisable, setButtonDisable] = React.useState(false);
 
-    // render dynamic title depanding in the activity
-    const [loading, setLoading] = React.useState(false)
+  // State to manage the dynamic title
+  const [loading, setLoading] = React.useState(false);
 
-    // const toastId = toast.loading('Loading...');
-
-  // method to connect to db
+  // Method to handle user login
   const onLogin = async () => {
-    
     try {
       setLoading(true);
-      // sending data to the api folder that will manage the logic
-      // 1. "api/users/login" is here the `user` data will be manage 
+      // Sending data to the API endpoint for user login
       const response = await axios.post("api/users/login", user);
-      // 2. if success data get in to the db and in console the user data created
-      console.log("Login success", response.data)
-      // 3. after data ok, go to '/profile'
-      
+      // If successful, log the user data and redirect to the profile page
+      console.log("Login success", response.data);
       router.push(`/profile`);
-    } catch (error:any) {
+    } catch (error: any) {
       console.log("Login failed", error.message);
-      toast.error(error.message);
-    }finally{
-      setLoading(false)
+      toast.error(error.message); // Display an error toast
+    } finally {
+      setLoading(false);
     }
   }
-    useEffect(() =>{
-        if(user.email.length >0 && user.password.length >0){
-            setButtonDisable(false);
-            console.log('false');
-        } else { setButtonDisable(true);
-          console.log('true')
-        }
-    },[user])  
-  
+
+  // Update the button state based on user input
+  useEffect(() => {
+    if (user.email.length > 0 && user.password.length > 0) {
+      setButtonDisable(false); // Enable the button if both email and password are provided
+      console.log('false');
+    } else {
+      setButtonDisable(true); // Disable the button if either field is empty
+      console.log('true');
+    }
+  }, [user]);
+
   return (
-    <div className='flex flex-col items-center justify-center min-h-screen py2'> 
-      <h1 className='font-bold'>{loading? "Loading ..." : "Login"}</h1>
+    <div className='flex flex-col items-center justify-center min-h-screen py-2'> 
+      <h1 className='font-bold'>{loading ? "Loading ..." : "Login"}</h1>
       <hr />
       
+      {/* Input field for email */}
       <label htmlFor='email'>email</label>
       <input
         className='p-4 border border-gray-300 rounded-lg mb-4 focus:outline-none'
         id='email'
         type='text'
         value={user.email}
-        onChange={(e) => setUser({...user, email: e.target.value})}
-        placeholder='email'
+        onChange={(e) => setUser({ ...user, email: e.target.value })}
+        placeholder = 'email'
       />
+
+      {/* Input field for password */}
       <label htmlFor='password'>password</label>
       <input
         className='p-4 border border-gray-300 rounded-lg mb-4 focus:outline-none'
         id='password'
         type='text'
         value={user.password}
-        onChange={(e) => setUser({...user, password: e.target.value})}
-        placeholder='password'
+        onChange={(e) => setUser({ ...user, password: e.target.value })}
+        placeholder = 'password'
       />
-      <button 
-      onClick={onLogin}  
-      className='p-4 border border-gray-300
-       rounded-lg mb-4 focus:outline-none hover:bg-black hover:text-white'>
-        {ButtonDisable? 'Type your email and password':'Login here'}
-      </button>
-      <Link href='/signup'>Visit Signup page</Link>
-    </div>
-  )
-  }      
 
-export default LoginPage
+      {/* Login button */}
+      <button
+        onClick={onLogin}
+        className='p-4 border border-gray-300 rounded-lg mb-4 focus:outline-none hover:bg-black hover:text-white'>
+        {ButtonDisable ? 'Type your email and password' : 'Login here'}
+      </button>
+
+      {/* Link to the signup page */}
+      <Link href='/signup'>Visit Signup page</Link>
+      <hr />
+      {/* Link to the "Forgot Your Password" page */}
+      <Link className='mt-4 hover:text-blue-800' href='/forgotpassword'>Forgot Your Password?</Link>
+    </div>
+  );
+}
+
+export default LoginPage;
