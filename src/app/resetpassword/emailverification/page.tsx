@@ -35,14 +35,15 @@ const EmailVerification = () => {
   const checkEmail = async () => {
     try {
       setLoading(true);
-
+      console.log('before route' ,userEmail)
       // Send a request to the server to check the email
-      const response = await axios.post('api/users/checkemailuser', userEmail);
+      const response = await axios.post('/api/users/resetpassword/checkemailuser', userEmail);
 
       // Log the result and set the state to activate the "code verification" component 
       console.log('Email checked:', response.data);
       setCodeVerification(true);
     } catch (error: any) {
+      
       console.error('Email check failed:', error.message);
 
       // Display an error toast if email check fails
@@ -59,7 +60,7 @@ const EmailVerification = () => {
       setLoading(true);
 
       // Send a request to the server to check the code
-      const response = await axios.post('api/users/checkemailuser', userCode);
+      const response = await axios.post('api/users/checkcodeuser', userCode);
 
       // Log the result and set the state to activate the "code verification" component 
       console.log('CODE checked:', response.data);
@@ -91,20 +92,18 @@ const EmailVerification = () => {
         in this wait the user can type the code received on their email to reset 
         their password*/
         <div className='flex flex-col items-center justify-center min-h-screen py-2'>
-          <h1 className="font-bold mb-2">
+          <h1 className="text-lg font-bold mb-2">
             {loading ? 'Verifying code ...' : 'Type your code'}
           </h1>  
           <hr />
-          <h2>Check your email.</h2>
-          <hr />
-          <p>You have received and email with a code valid for 1 hour. 
-            Type your code below to reset your password.</p>
+          <p>You have received and email with a code valid for 1 hour.</p> 
+          <p>Type your code below to reset your password.</p>
             
           <hr />
-          <label htmlFor="code">CODE</label>
+          <label className='m-2 text-lg' htmlFor="code">CODE</label>
           <hr />
           <input
-            className="p-4 border border-gray-300 rounded-lg mb-4 focus:outline-none"
+            className="p-4 border border-gray-300 rounded-lg mb-4 focus:outline-none placeholder:text-gray-500 placeholder:italic placeholder:uppercase w-96 px-5 placeholder:text-center"
             id="code"
             type="text"
             value={userCode.code}
