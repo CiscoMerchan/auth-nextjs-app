@@ -120,7 +120,7 @@ const EmailVerification = () => {
             className="p-4 border border-gray-300 rounded-lg mb-4 focus:outline-none hover:bg-black hover:text-white"
             disabled={buttonDisable}
           >
-            {buttonDisable ? 'Type your email' : 'Reset your password'}
+            {buttonDisable ? 'Type your Code' : 'Reset your password'}
           </button>
           <hr />
           <Link className="mb-3" href="/signup">
@@ -132,7 +132,7 @@ const EmailVerification = () => {
         // Display email user form to verify email
         <div className='flex flex-col items-center justify-center min-h-screen py-2'>
           <h1 className="font-bold mb-2 items-center justify-center">
-            {loading ? 'Sending email ...' : 'Forgot Password? Reset your password!'}
+            {loading ? 'Sending email ...' : 'Forgot Password? Get a code!'}
           </h1>
           <hr />
           <label  htmlFor="email">Email</label>
@@ -151,7 +151,7 @@ const EmailVerification = () => {
             className="p-4 border border-gray-300 rounded-lg mb-4 focus:outline-none hover:bg-black hover:text-white"
             disabled={buttonDisable}
           >
-            {buttonDisable ? 'Type your email' : 'Reset your password'}
+            {buttonDisable ? 'Type your email' : 'Press to get a Code'}
           </button>
           <hr />
           <Link className="mb-3" href="/signup">
