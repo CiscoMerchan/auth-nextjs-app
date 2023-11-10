@@ -15,7 +15,7 @@ export async function POST(request: NextRequest){
         // Verify user token
         const user = await User.findOne({verifyToken:token,
         verifyTokenExpiry: {$gt: Date.now()}})
-        console.log('user from vemail:',user);    
+        console.log('user from the token:',user);    
 
 
         if (!user) {

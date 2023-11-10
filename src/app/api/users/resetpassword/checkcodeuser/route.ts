@@ -32,14 +32,15 @@ export async function POST(request: NextRequest) {
       username: user.username,
     };
 
-    // Create token with a 10-minute expiry
+    // Create token with a 60-minute expiry
     const token = jwt.sign(tokenData, process.env.TOKEN_SECRET!, {
-      expiresIn: "10m", // 10 minutes
+      expiresIn: "1h", // 60 minutes
     });
 
     // Update the user's token and token expiry in the database
+    user.isVerified = true;
     user.verifyToken = token;
-    user.verifyTokenExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+    user.verifyTokenExpiry = new Date(Date.now() + 3600000); // 60 minutes
     await user.save();
 
     const response = NextResponse.json({
