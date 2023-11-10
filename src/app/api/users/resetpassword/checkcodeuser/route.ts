@@ -19,20 +19,21 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid code" }, { status: 400 });
     }
 
-    // Check if the token has expired
+    // Check if the code has expired
     if (user.forgotPasswordTokentExpiry && user.forgotPasswordTokentExpiry < Date.now()) {
 
       console.log("Token has expired");
       return NextResponse.json({ error: "Token has expired" }, { status: 400 });
     }
 
-    // Code is valid, and the token has not expired, proceed to generate a new token
+    // Code is valid, and the token has not expired,
+    //  proceed to generate a new token
     const tokenData = {
       id: user._id,
       username: user.username,
     };
 
-    // Create token with a 60-minute expiry
+    // Create token that encrypt the `tokenData` with a 60-minute expiry
     const token = jwt.sign(tokenData, process.env.TOKEN_SECRET!, {
       expiresIn: "1h", // 60 minutes
     });
