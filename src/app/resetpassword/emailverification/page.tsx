@@ -27,6 +27,8 @@ const EmailVerification = () => {
   
     // State to track whether to navigate to the code verification
     const [codeVerification, setCodeVerification] = useState(false);
+    // to recover and render user name
+    
 
 
 
@@ -41,6 +43,8 @@ const EmailVerification = () => {
 
       // Log the result and set the state to activate the "code verification" component 
       console.log('Email checked:', response.data);
+      
+      
       setCodeVerification(true);
     } catch (error: any) {
       
@@ -60,7 +64,7 @@ const EmailVerification = () => {
       setLoading(true);
 
       // Send a request to the server to check the code
-      const response = await axios.post('api/users/checkcodeuser', userCode);
+      const response = await axios.post('/api/users/resetpassword/checkcodeuser', userCode);
 
       // Log the result and set the state to activate the "code verification" component 
       console.log('CODE checked:', response.data);
@@ -93,10 +97,10 @@ const EmailVerification = () => {
         their password*/
         <div className='flex flex-col items-center justify-center min-h-screen py-2'>
           <h1 className="text-lg font-bold mb-2">
-            {loading ? 'Verifying code ...' : 'Type your code'}
+            {loading ? 'Verifying code ...' : `Hi Type your code`}
           </h1>  
           <hr />
-          <p>You have received and email with a code valid for 1 hour.</p> 
+          <p> You have received and email with a code valid for 1 hour.</p> 
           <p>Type your code below to reset your password.</p>
             
           <hr />
