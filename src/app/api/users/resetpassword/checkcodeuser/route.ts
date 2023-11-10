@@ -55,6 +55,7 @@ export async function POST(request: NextRequest) {
       });
 
     // return response to the browser
+    console.log('response from checkcode ', response)
     return response  
 
   } catch (error: any) {
