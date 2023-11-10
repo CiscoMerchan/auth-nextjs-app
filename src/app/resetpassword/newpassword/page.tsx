@@ -66,10 +66,11 @@ const UseNewPassword = () => {
 
 //   GET TOKEN GROM THE BROWSER
 useEffect(() => {
-    const urlToken = window.location.search.split("=")
-    [1];
-    setToken(urlToken||"");
-}, []);
+    const urlToken = new URLSearchParams(window.location.search);
+    const token = urlToken.get("token") || "";
+    console.log(token)
+    setToken(token);
+  }, []);
 
   // PASSWORDS: Use the useEffect hook to enable/disable the button based on user input
   useEffect(() => {

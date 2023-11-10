@@ -68,7 +68,7 @@ const EmailVerification = () => {
 
       // Log the result and set the state to activate the "code verification" component 
       console.log('CODE checked:', response.data);
-      router.push('/') /*ADD ROUTE TO RESET PASSWORD PAGE */
+      router.push('/resetpassword/newpassword') 
     } catch (error: any) {
       console.error('CODE check failed:', error.message);
 
