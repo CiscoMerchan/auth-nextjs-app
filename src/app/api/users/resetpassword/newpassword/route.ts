@@ -8,11 +8,12 @@ connect()
 export async function POST(request: NextRequest){
     try {
         const reqBody = await request.json()
+        // Token = user id. Password = new user password
         const {token, password} = reqBody
         console.log('request Body:IN ROUTE:token',token, 'password:',password);
         console.log('request Body:',reqBody);
 
-        // Verify user token
+        // Verify user if user id from the token is in the DB
         const user = await User.findOne({_id:token,
         verifyTokenExpiry: {$gt: Date.now()}})
         console.log('user from the token:',user);    
