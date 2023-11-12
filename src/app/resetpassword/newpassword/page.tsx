@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
+
 const UseNewPassword = () => {
     // Initialize router for page navigation
     const router = useRouter();
@@ -14,7 +15,9 @@ const UseNewPassword = () => {
       password1: '',
       password2:''
     });
-  
+    
+    // Store token from client
+    const [clientToken, setClientToken] = useState('')
      
     // State to control the "Reset Password" button's state
     const [buttonDisable, setButtonDisable] = useState(true);
@@ -22,9 +25,26 @@ const UseNewPassword = () => {
     // State to manage loading state
     const [loading, setLoading] = useState(false);
   
-    // STORE TOKEN FROM THE BROWSER
-    const [token, setToken] = useState('');
-    // to recover and render user name
+  
+
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const res = await axios.get('/api/users/me');
+      console.log('user ID',res.data.data._id);
+      setClientToken(res.data.data._id);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      // Handle errors as needed
+    }
+  };
+
+  fetchData(); // Call the async function inside useEffect
+
+}, []);
+
+
     
 
 
@@ -44,13 +64,13 @@ const UseNewPassword = () => {
       // Send a request to the server to check the email
       const response = await axios.post('/api/users/resetpassword/newpassword', {
         password: userNewPassword.password1,
-        token: token,
+        token: clientToken,
       });
 
-      // Log the result and set the state to activate the "code verification" component 
+      // // Log the result and set the state to activate the "code verification" component 
       console.log('password in db:', response.data);
       
-      
+      console.log('password checked and user id', clientToken,userNewPassword.password1 )
       router.push('/login');
 
     } catch (error: any) {
@@ -64,13 +84,6 @@ const UseNewPassword = () => {
     }
   };
 
-//   GET TOKEN GROM THE BROWSER
-useEffect(() => {
-    const urlToken = new URLSearchParams(window.location.search);
-    const token = urlToken.get("token") || "";
-    console.log(token)
-    setToken(token);
-  }, []);
 
   // PASSWORDS: Use the useEffect hook to enable/disable the button based on user input
   useEffect(() => {

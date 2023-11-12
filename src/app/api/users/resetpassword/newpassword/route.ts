@@ -9,11 +9,11 @@ export async function POST(request: NextRequest){
     try {
         const reqBody = await request.json()
         const {token, password} = reqBody
-        console.log(token, password);
+        console.log('request Body:IN ROUTE:token',token, 'password:',password);
         console.log('request Body:',reqBody);
 
         // Verify user token
-        const user = await User.findOne({verifyToken:token,
+        const user = await User.findOne({_id:token,
         verifyTokenExpiry: {$gt: Date.now()}})
         console.log('user from the token:',user);    
 
@@ -37,7 +37,10 @@ export async function POST(request: NextRequest){
             success: true 
         })
     } catch (error:any) {
+        console.log('catch request pass',{request: NextRequest});
         return NextResponse.json({error: error.message},
              {status:  500})
+             
     }
+    
 }
